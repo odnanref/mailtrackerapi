@@ -109,7 +109,8 @@ class TargetLog {
 $app->get('/', function () use ($app) {
     return $app['twig']->render('index.html.twig', array());
 })
-->bind('homepage')
+    ->bind('homepage')
+    ->requireHttps()
 ;
 
 $app->error(function (\Exception $e, Request $request, $code) use ($app) {
@@ -222,3 +223,5 @@ $app->get("/user-default", function() use ($app) {
     
     return $app->json($password, "200");
 });
+
+$app->requireHttps();
