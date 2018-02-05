@@ -14,6 +14,8 @@ $app->register(new AssetServiceProvider());
 $app->register(new TwigServiceProvider());
 $app->register(new HttpFragmentServiceProvider());
 
+$app['controllers']->requireHttps();
+
 $app['twig'] = $app->extend('twig', function ($twig, $app) {
     // add custom globals, filters, tags, ...
 
@@ -65,4 +67,4 @@ $app->before(function (Request $request) {
     }
 });
 
-return $app->requireHttps();
+return $app;
