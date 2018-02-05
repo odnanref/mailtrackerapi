@@ -65,4 +65,4 @@ $app->before(function (Request $request) {
     }
 });
 
-return $app;
+return $app->requireHttps();
