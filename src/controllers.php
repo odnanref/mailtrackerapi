@@ -224,4 +224,3 @@ $app->get("/user-default", function() use ($app) {
     return $app->json($password, "200");
 });
 
-$app->requireHttps();
