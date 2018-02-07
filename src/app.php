@@ -22,18 +22,21 @@ $app['twig'] = $app->extend('twig', function ($twig, $app) {
     return $twig;
 });
 
+$app['twig.path'] = array(__DIR__.'/../templates');
+$app['twig.options'] = array('cache' => __DIR__.'/../var/cache/twig');
+
 $app->register(new Silex\Provider\MonologServiceProvider(), array(
     'monolog.logfile' => __DIR__.'/../var/logs/app.log',
 ));
 
 $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
     'db.options' => array(
-        'driver'   => (getenv('driver') == "" ? $app['netcrash']['driver'] : getenv('driver')),
-        'host'      => (getenv('host') == "" ? $app['netcrash']['host'] : getenv('host')),
-        'dbname'    => (getenv('dbname') == "" ? $app['netcrash']['dbname'] : getenv('dbname')),
-        'user'      => (getenv('username') == "" ? $app['netcrash']['username'] : getenv('username')),
-        'password'  => (getenv('password') == "" ? $app['netcrash']['password'] : getenv('password')),
-        'charset'   => (getenv('charset') == "" ? $app['netcrash']['charset'] : getenv('charset'))
+        'driver'   => (getenv('driver') == "" ? $netcrash['driver'] : getenv('driver')),
+        'host'      => (getenv('host') == "" ? $netcrash['host'] : getenv('host')),
+        'dbname'    => (getenv('dbname') == "" ? $netcrash['dbname'] : getenv('dbname')),
+        'user'      => (getenv('username') == "" ? $netcrash['username'] : getenv('username')),
+        'password'  => (getenv('password') == "" ? $netcrash['password'] : getenv('password')),
+        'charset'   => (getenv('charset') == "" ? $netcrash['charset'] : getenv('charset'))
     ),
 ));
 
