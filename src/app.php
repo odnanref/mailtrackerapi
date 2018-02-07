@@ -48,7 +48,7 @@ if (\trim(getenv('ADMINPASS')) == '' && \trim($netcrash['ADMINPASS']) == '') {
 
 $app['security.firewalls'] = array(
     'admin' => array(
-        'pattern' => '^/target',
+        'pattern' => '^/mailtracker/target',
         'http' => true,
         'users' => array(
             // raw password is foo
