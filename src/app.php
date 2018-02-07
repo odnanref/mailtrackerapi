@@ -40,10 +40,10 @@ $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
     ),
 ));
 
-if (\trim(getenv('ADMINPASS')) == '' && \trim($app['netcrash']['ADMINPASS']) == '') {
+if (\trim(getenv('ADMINPASS')) == '' && \trim($netcrash['ADMINPASS']) == '') {
     throw new \Exception("No password defined.");
 } else {
-    $pass = (getenv("ADMINPASS") == "" ? $app['netcrash']['ADMINPASS'] : getenv("ADMINPASS"));
+    $pass = (getenv("ADMINPASS") == "" ? $netcrash['ADMINPASS'] : getenv("ADMINPASS"));
 }
 
 $app['security.firewalls'] = array(
