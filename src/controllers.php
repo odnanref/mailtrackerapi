@@ -106,13 +106,14 @@ class TargetLog {
 }
 
 
-$app->get('/', function () use ($app) {
+$main = $app['controllers_factory'];
+$main->get('/', function () use ($app) {
     return $app['twig']->render('index.html.twig', array());
 })
     ->bind('homepage')
-;
+    ;
 
-$app->error(function (\Exception $e, Request $request, $code) use ($app) {
+$main->error(function (\Exception $e, Request $request, $code) use ($app) {
     if ($app['debug']) {
         return;
     }
@@ -130,7 +131,7 @@ $app->error(function (\Exception $e, Request $request, $code) use ($app) {
             ->render(array('code' => $code)), $code);
 });
 
-$app->get("/logo/{uuid}", function ($uuid) use ($app) {
+$main->get("/logo/{uuid}", function ($uuid) use ($app) {
     // register connection
     // return 
     $tl = new TargetLog($app['db']);
@@ -162,7 +163,7 @@ $app->get("/logo/{uuid}", function ($uuid) use ($app) {
     
 });
 
-$app->post("/target/new", function (Request $request) use ($app) {
+$main->post("/target/new", function (Request $request) use ($app) {
     $target = array(
         'name' => $request->request->get('name'),
         'image'  => $request->request->get('image'),
@@ -174,7 +175,7 @@ $app->post("/target/new", function (Request $request) use ($app) {
     return $app->json($t, 201);
 });
 
-$app->put("/target/edit/{id}", function (Request $request,$id) use ($app){
+$main->put("/target/edit/{id}", function (Request $request,$id) use ($app){
     $target = array(
         'id' => $request->request->get('id'),
         'name' => $request->request->get('title'),
@@ -187,22 +188,22 @@ $app->put("/target/edit/{id}", function (Request $request,$id) use ($app){
     return $app->json($target, 201);
 });
 
-$app->get("/target/view/{id}", function ($id) use ($app) {
+$main->get("/target/view/{id}", function ($id) use ($app) {
     $tr = new TargetRepository($app['db']);
     return $app->json($tr->getTargetById($id), 200);
 });
 
-$app->get("/target", function () use ($app) {
+$main->get("/target", function () use ($app) {
     $tr = new TargetRepository($app['db']);
     return $app->json($tr->getAll(), 200);
 });
 
-$app->get("/target/visits/{uuid}", function ($uuid) use ($app) {
+$main->get("/target/visits/{uuid}", function ($uuid) use ($app) {
     $tr = new TargetLog($app['db']);
     return $app->json($tr->getAllVisitsByUUID($uuid), 200);
 });
 
-$app->post("/target/media/new", function (Request $request) use ($app) {
+$main->post("/target/media/new", function (Request $request) use ($app) {
 
     $app['monolog']->info("receiving file." . count($request->files));
 
@@ -216,10 +217,12 @@ $app->post("/target/media/new", function (Request $request) use ($app) {
     
 });
 
-$app->get("/user-default", function() use ($app) {
+$main->get("/user-default", function() use ($app) {
 
     $password = $app['security.encoder.digest']->encodePassword("...");
     
     return $app->json($password, "200");
 });
+
+$app->mount("/mailtracker", $main);
 
