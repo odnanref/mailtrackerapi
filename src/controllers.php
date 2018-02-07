@@ -224,5 +224,5 @@ $main->get("/user-default", function() use ($app) {
     return $app->json($password, "200");
 });
 
-$app->mount("/mailtracker", $main);
+$app->mount("/mailtracker/1", $main);
 
