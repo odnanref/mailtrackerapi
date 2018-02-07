@@ -113,7 +113,7 @@ $main->get('/', function () use ($app) {
     ->bind('homepage')
     ;
 
-$main->error(function (\Exception $e, Request $request, $code) use ($app) {
+$app->error(function (\Exception $e, Request $request, $code) use ($app) {
     if ($app['debug']) {
         return;
     }
